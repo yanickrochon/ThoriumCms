@@ -1,0 +1,30 @@
+{
+    "name": "speckcms",
+    "description": "A Content Management System module for ZF2 and SpeckCommerce.",
+    "type": "library",
+    "keywords": [
+        "zf2"
+    ],
+    "homepage": "https://github.com/yanickrochon/SpeckCms",
+    "authors": [
+        {
+            "name": "Yanick Rochon",
+            "email": "yanick.rochon@gmail.com",
+            "homepage": ""
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "zendframework/zendframework": "dev-master",
+        "zf-commons/zfc-base": "dev-master",
+        "zf-commons/zfc-user": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "SpeckCms": "src/"
+        },
+        "classmap": [
+            "./"
+        ]
+    }
+}
