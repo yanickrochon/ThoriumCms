@@ -1,11 +1,11 @@
 {
-    "name": "speckcms",
-    "description": "A Content Management System module for ZF2 and SpeckCommerce.",
+    "name": "ThoriumCms",
+    "description": "A lightweight, flexible, standalone Content Management System module for ZF2.",
     "type": "library",
     "keywords": [
         "zf2"
     ],
-    "homepage": "https://github.com/yanickrochon/SpeckCms",
+    "homepage": "https://github.com/yanickrochon/ThoriumCms",
     "authors": [
         {
             "name": "Yanick Rochon",
@@ -21,7 +21,7 @@
     },
     "autoload": {
         "psr-0": {
-            "SpeckCms": "src/"
+            "ThoriumCms": "src/"
         },
         "classmap": [
             "./"

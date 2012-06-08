@@ -1,10 +1,10 @@
-SpeckCms
-========
+ThoriumCms
+==========
 Version 0.0.1 created by Yanick Rochon
 
 Introduction
 ------------
-SpeckCMS is a module to manage static or dynamic pages.
+ThoriumCMS is a module to manage static or dynamic pages.
 
 Requirements
 ------------
@@ -16,7 +16,8 @@ Requirements
 Features / Goals
 ----------------
 
-* enable insertion of view helpers and widgets through markup (to be defined)
+* offer a very lightweight, pluggable, CMS module that can be easily 
+  extended and customized
 
 Installation
 ------------
@@ -29,7 +30,7 @@ Installation
    file.
 2. Clone this project into your `./vendor/` directory and enable it in your
    `application.config.php` file.
-3. Import the SQL schema located in `./vendor/SpeckCms/data/schema.sql`.
+3. Import the SQL schema located in `./vendor/ThoriumCms/data/schema.sql`.
 
 ### Post-Install: Zend\Db
 

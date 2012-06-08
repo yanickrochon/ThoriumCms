@@ -1,6 +1,6 @@
 <?php
 
-namespace SpeckCms;
+namespace ThoriumCms;
 
 use Zend\ModuleManager\ModuleManager,
     Zend\EventManager\StaticEventManager,
@@ -40,21 +40,21 @@ class Module implements
     {
         return array(
             'factories' => array(
-                'speckcms_page_service' => function ($sm) {
+                'thoriumcms_page_service' => function ($sm) {
                     $service = new Service\Page;
-                    $service->setPageMapper($sm->get('speckcms_page_mapper'));
-                    $service->setPageContentMapper($sm->get('speckcms_pagecontent_mapper'));
+                    $service->setPageMapper($sm->get('thoriumcms_page_mapper'));
+                    $service->setPageContentMapper($sm->get('thoriumcms_pagecontent_mapper'));
                     return $service;
                 },
 
-                'speckcms_page_mapper' => function ($sm) {
-                    $adapter = $sm->get('speckcms_zend_db_adapter');
+                'thoriumcms_page_mapper' => function ($sm) {
+                    $adapter = $sm->get('thoriumcms_zend_db_adapter');
                     $tg = new \Zend\Db\TableGateway\TableGateway('page', $adapter);
                     return new Model\PageMapper($tg);
                 },
 
-                //'speckcms_pagecontent_mapper' => function ($sm) {
-                //    $adapter = $sm->get('speckcms_zend_db_adapter');
+                //'thoriumcms_pagecontent_mapper' => function ($sm) {
+                //    $adapter = $sm->get('thoriumcms_zend_db_adapter');
                 //    $tg = new \Zend\Db\TableGateway\TableGateway('page_content', $adapter);
                 //    return new Model\PageContentMapper($tg);
                 //},
@@ -65,7 +65,7 @@ class Module implements
     public function modulesLoaded($e)
     {
         $config = $e->getConfigListener()->getMergedConfig();
-        static::$options = $config['speckcms'];
+        static::$options = $config['thoriumcms'];
     }
 
     /**
