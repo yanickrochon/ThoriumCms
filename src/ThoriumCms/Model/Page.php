@@ -2,10 +2,10 @@
 
 namespace ThoriumCms\Model;
 
-use DateTime,
-    ZfcBase\Model\ModelAbstract;
+use DateTime;
+use ZfcBase\Model\AbstractModel;
 
-class Page extends ModelAbstract implements PageInterface
+class Page extends AbstractModel implements PageInterface
 {
     protected $page_id;
 
@@ -24,7 +24,7 @@ class Page extends ModelAbstract implements PageInterface
      *
      * @return int pageId
      */
-    public function getId()
+    public function getPageId()
     {
         return $this->page_id;
     }
@@ -35,7 +35,7 @@ class Page extends ModelAbstract implements PageInterface
      * @param int $pageId the value to be set
      * @return Page
      */
-    public function setId($pageId)
+    public function setPageId($pageId)
     {
         $this->page_id = (int) $pageId;
         return $this;
@@ -115,16 +115,12 @@ class Page extends ModelAbstract implements PageInterface
     /**
      * Set keywords.
      *
-     * @param mixed $keywords the value to be set
+     * @param array|string $keywords the value to be set
      * @return Page
      */
     public function setKeywords($keywords = array())
     {
         if(is_object($keywords)) {
-            if(is_callable(array($keywords, 'toScalarValueArray'))) {
-                return $keywords->toScalarValueArray();
-            }
-
             if(is_callable(array($keywords, 'toArray'))) {
                 $keywords = $keywords->toArray();
             }
@@ -155,7 +151,7 @@ class Page extends ModelAbstract implements PageInterface
     /**
      * Set createdTime.
      *
-     * @param string $createdTime the value to be set
+     * @param string|DateTime $createdTime the value to be set
      * @return Page
      */
     public function setCreatedTime($createdTime)
@@ -191,20 +187,17 @@ class Page extends ModelAbstract implements PageInterface
     }
 
     /**
-     * Get the scalar array value of this model
+     * Convert a model class to an array recursively
      *
+     * @param mixed $array
      * @return array
      */
-    public function toScalarValueArray()
+    public function toArray($array = false)
     {
-        return array(
-            'id'           => $this->page_id,
-            'name'         => $this->name,
-            'title'        => $this->title,
-            'keywords'     => static::getKeywordsArrayFromString($this->keywords),
-            'created_time' => $this->created_time,
-            'active'       => $this->active,
-        );
+        if (is_array($this->keywords)) {
+            $this->keywords = static::getKeywordsStringFromArray($this->keywords);
+        }
+        return parent::toArray($array);
     }
 
     /**

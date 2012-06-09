@@ -9,12 +9,23 @@ class PageController extends ActionController
 {
     public function indexAction()
     {
-        $page = $this->getEvent()->getRouteMatch()->getParam('page', 'index');
+        $pageName = $this->getEvent()->getRouteMatch()->getParam('page', 'index');
 
-        // TODO : check if page exists
+        $service = $this->getServiceLocator()->get('thoriumcms_page_service');
 
+        $page = $service->getPageByName($pageName);
+        if (!$page) {
+            return $this->notFoundAction();
+        }
+        
+        $pageContent = $service->getContentForPage($page);
+        if (!$pageContent) {
+            return $this->notFoundAction();
+        }
+        
         return new ViewModel(array(
             'page' => $page,
+            'pageContent' => $pageContent,
         ));
     }
 }

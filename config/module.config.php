@@ -2,6 +2,7 @@
 return array(
     'thoriumcms' => array(
         'page_model_class'          => 'ThoriumCms\Model\Page',
+        'page_content_model_class'  => 'ThoriumCms\Model\PageContent',
     ),
 
     'router' => array(
@@ -44,6 +45,13 @@ return array(
             'thoriumcms/admin' => 'ThoriumCms\Controller\AdminController',
         ),
     ),
+
+    'service_manager' => array(
+        'aliases' => array(
+            'thoriumcms_zend_db_adapter' => 'Zend\Db\Adapter\Adapter',
+        ),
+    ),
+
     'view_manager' => array(
         'template_path_stack' => array(
             __DIR__ . '/../view',

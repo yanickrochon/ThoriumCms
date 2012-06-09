@@ -9,7 +9,7 @@ interface PageInterface
      *
      * @return int pageId
      */
-    public function getId();
+    public function getPageId();
 
     /**
      * Set pageId.
@@ -17,7 +17,7 @@ interface PageInterface
      * @param int $pageId the value to be set
      * @return Page
      */
-    public function setId($pageId);
+    public function setPageId($pageId);
 
     /**
      * Get page name.
@@ -67,10 +67,10 @@ interface PageInterface
     /**
      * Set keywords.
      *
-     * @param array $keywords the value to be set
+     * @param array|string $keywords the value to be set
      * @return Page
      */
-    public function setKeywords(array $keywords = array());
+    public function setKeywords($keywords = array());
 
     /**
      * Get createdTime.
@@ -82,7 +82,7 @@ interface PageInterface
     /**
      * Set createdTime.
      *
-     * @param string $createdTime the value to be set
+     * @param string|DateTime $createdTime the value to be set
      * @return Page
      */
     public function setCreatedTime($createdTime);
@@ -102,19 +102,4 @@ interface PageInterface
      */
     public function setActive($active);
 
-    /**
-     * Convert the model to an array 
-     * 
-     * @return array
-     */
-    public function toArray();
-
-    /**
-     * Convert an array into a model instance 
-     * 
-     * @param array $array 
-     * @static
-     * @return Page
-     */
-    public static function fromArray($array);
 }

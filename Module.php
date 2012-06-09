@@ -39,6 +39,9 @@ class Module implements
     public function getServiceConfiguration()
     {
         return array(
+            'invokables' => array(
+                //'thoriumcms_page_service'              => 'ThoriumCms\Service\User',
+            ),
             'factories' => array(
                 'thoriumcms_page_service' => function ($sm) {
                     $service = new Service\Page;
@@ -50,14 +53,18 @@ class Module implements
                 'thoriumcms_page_mapper' => function ($sm) {
                     $adapter = $sm->get('thoriumcms_zend_db_adapter');
                     $tg = new \Zend\Db\TableGateway\TableGateway('page', $adapter);
-                    return new Model\PageMapper($tg);
+                    $mapper = new Mapper\Page($tg);
+                    $mapper->setTableGateway($tg);
+                    return $mapper;
                 },
 
-                //'thoriumcms_pagecontent_mapper' => function ($sm) {
-                //    $adapter = $sm->get('thoriumcms_zend_db_adapter');
-                //    $tg = new \Zend\Db\TableGateway\TableGateway('page_content', $adapter);
-                //    return new Model\PageContentMapper($tg);
-                //},
+                'thoriumcms_pagecontent_mapper' => function ($sm) {
+                    $adapter = $sm->get('thoriumcms_zend_db_adapter');
+                    $tg = new \Zend\Db\TableGateway\TableGateway('page_content', $adapter);
+                    $mapper = new Mapper\PageContent($tg);
+                    $mapper->setTableGateway($tg);
+                    return $mapper;
+                },
             ),
         );
     }
