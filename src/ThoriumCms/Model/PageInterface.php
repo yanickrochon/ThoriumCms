@@ -57,12 +57,12 @@ interface PageInterface
     public function getKeywords();
 
     /**
-     * Has keyword.
+     * Has all keywords.
      *
-     * @param string $keyword the value to check
-     * @return boolean true if the page has keyword
+     * @param string|array $keywords the value to check
+     * @return boolean true if the page has all the keywords
      */
-    public function hasKeyword($keyword);
+    public function hasKeywords($keywords);
 
     /**
      * Set keywords.
@@ -70,7 +70,7 @@ interface PageInterface
      * @param array|string $keywords the value to be set
      * @return Page
      */
-    public function setKeywords($keywords = array());
+    public function setKeywords($keywords);
 
     /**
      * Get createdTime.

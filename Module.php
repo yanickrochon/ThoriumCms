@@ -40,7 +40,7 @@ class Module implements
     {
         return array(
             'invokables' => array(
-                //'thoriumcms_page_service'              => 'ThoriumCms\Service\User',
+                'thoriumCmsPageAccess'             => 'ThoriumCms\Controller\Plugin\ThoriumCmsPageAccess',
             ),
             'factories' => array(
                 'thoriumcms_page_service' => function ($sm) {
@@ -64,6 +64,12 @@ class Module implements
                     $mapper = new Mapper\PageContent($tg);
                     $mapper->setTableGateway($tg);
                     return $mapper;
+                },
+
+                'thoriumcms_pageedit_form' => function($sm) {
+                    $form = new \ThoriumCms\Form\PageEdit();
+                    // TODO set hydrator and input filter?
+                    return $form;
                 },
             ),
         );

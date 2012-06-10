@@ -1,0 +1,65 @@
+<?php
+
+$page        = $this->page;
+$pageContent = $this->pageContent;
+$form        = $this->editForm;
+
+if ($page) {
+    $data = $page->toArray();
+    if ($pageContent) {
+        $data = array_merge($data, $pageContent->toArray());
+    }
+
+    if ($data['active']) {
+        $form->get('active')->setAttribute('checked', 'checked');
+    }
+    $data['active'] = true;  // override value so we get something useful on the form...
+
+    $form->setData($data);
+} else {
+    $form->setData(array('name' => $this->pageName, 'active' => true));
+}
+
+$form->prepare();
+$form->setAttribute('action', $this->url('thoriumcms_admin/save'));
+$form->setAttribute('method', 'post');
+
+echo $this->form()->openTag($form);
+
+?>
+<dl class="zend_form">
+<?php echo $this->formElementErrors($form->get('name')); ?>
+<dt><?php echo $this->formLabel($form->get('name')->setAttributes(array('for' => 'name'))); ?></dt>
+<dd><?php echo $this->formInput($form->get('name')->setAttributes(array('id'  => 'name'))); ?></dd>
+
+<dd><?php 
+echo $this->formInput($form->get('active')->setAttributes(array('id' => 'active', 'style' => 'float:left;margin-right:8px;'))); 
+echo $this->formLabel($form->get('active')->setAttributes(array('for' => 'active', 'style' => 'float:left;')));
+?></dd>
+
+<?php echo $this->formElementErrors($form->get('title')); ?>
+<dt><?php echo $this->formLabel($form->get('title')->setAttributes(array('for' => 'title'))); ?></dt>
+<dd><?php echo $this->formInput($form->get('title')->setAttributes(array('id'  => 'title'))); ?></dd>
+
+<?php echo $this->formElementErrors($form->get('keywords')); ?>
+<dt><?php echo $this->formLabel($form->get('keywords')->setAttributes(array('for' => 'keywords'))); ?></dt>
+<dd><?php echo $this->formInput($form->get('keywords')->setAttributes(array('id'  => 'keywords'))); ?></dd>
+
+<?php echo $this->formElementErrors($form->get('content')); ?>
+<dt><?php echo $this->formLabel($form->get('content')->setAttributes(array('for' => 'content'))); ?></dt>
+<dd><?php echo $this->formTextarea($form->get('content')->setAttributes(array('id' => 'content'))); ?></dd>
+
+<?php echo $this->formElementErrors($form->get('locale')); ?>
+<dt><?php echo $this->formLabel($form->get('locale')->setAttributes(array('for' => 'locale'))); ?></dt>
+<dd><?php echo $this->formInput($form->get('locale')->setAttributes(array('id'  => 'locale'))); ?></dd>
+
+<dd><?php
+echo $this->formInput($form->get('csrf'));
+echo $this->formInput($form->get('pageId'));
+echo $this->formInput($form->get('submit'));
+?></dd>
+
+</dl>
+
+<?php echo $this->form()->closeTag(); ?>
+

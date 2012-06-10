@@ -88,14 +88,12 @@ class Page extends AbstractModel implements PageInterface
     /**
      * Get keywords.
      *
-     * @return array keywords
+     * @return string keywords
      */
     public function getKeywords()
     {
         if(null === $this->keywords) {
-            $this->keywords = array();
-        } elseif(is_string($this->keywords)) {
-            $this->keywords = static::getKeywordsArrayFromString($this->keywords);
+            $this->keywords = '';
         }
 
         return $this->keywords;
@@ -104,34 +102,43 @@ class Page extends AbstractModel implements PageInterface
     /**
      * Has keyword.
      *
-     * @param string $keyword the value to check
-     * @return boolean true if the page has keyword
+     * @param string|array $keywords the value to check
+     * @return boolean true if the page has all keyword
      */
-    public function hasKeyword($keyword)
+    public function hasKeywords($keywords)
     {
-        return in_array(strtolower($keyword), $this->getKeywords());
+        if(is_object($keywords)) {
+            if(is_callable(array($keywords, 'toString'))) {
+                $keywords = $keywords->toString();
+            } else {
+                return false;
+            }
+        }
+        if (!is_array($keywords)) {
+            $keywords = explode(' ', $keywords);
+        }
+
+        $keywordMatch = array_intersect(explode(' ', $this->getKeywords()), $keywords);
+
+        return count($keywordMatch) == count($keywords);
     }
 
     /**
      * Set keywords.
      *
-     * @param array|string $keywords the value to be set
+     * @param string $keywords the value to be set
      * @return Page
      */
-    public function setKeywords($keywords = array())
+    public function setKeywords($keywords)
     {
         if(is_object($keywords)) {
-            if(is_callable(array($keywords, 'toArray'))) {
-                $keywords = $keywords->toArray();
+            if(is_callable(array($keywords, 'toString'))) {
+                $keywords = $keywords->toString();
+            } else {
+                throw new Exception("Parameter cannot be converted into a string");
             }
-        }
-
-        if(is_string($keywords)) {
-            $keywords = static::getKeywordsArrayFromString($keywords);
-        }
-
-        if(!is_array($keywords)) {
-            throw new NotArrayException("Parameter is not an array");
+        } else if (is_array($keywords)) {
+            $keywords = implode(' ', $keywords);
         }
 
         $this->keywords = $keywords;
@@ -182,43 +189,8 @@ class Page extends AbstractModel implements PageInterface
      */
     public function setActive($active)
     {
-        $this->active = $active;
+        $this->active = (bool) $active;
         return $this;
     }
 
-    /**
-     * Convert a model class to an array recursively
-     *
-     * @param mixed $array
-     * @return array
-     */
-    public function toArray($array = false)
-    {
-        if (is_array($this->keywords)) {
-            $this->keywords = static::getKeywordsStringFromArray($this->keywords);
-        }
-        return parent::toArray($array);
-    }
-
-    /**
-     * getKeywordsArrayFromString
-     *
-     * returns an array from the string of keywords
-     *
-     * @param int $byteLength
-     * @return string
-     */
-    protected static function getKeywordsArrayFromString($keywordsString)
-    {
-        return array_map(function($item) {
-            return strtolower(str_replace('_', ' ', $item));
-        }, explode(' ', $keywordsString));
-    }
-
-    protected static function getKeywordsStringFromArray(array $keywordsArray)
-    {
-        return implode(' ', array_map(function($item) { 
-            return str_replace(' ', '_', $item);
-        }, $keywordsArray));
-    }
 }

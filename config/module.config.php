@@ -7,6 +7,17 @@ return array(
 
     'router' => array(
         'routes' => array(
+            //'testroute' => array(
+            //    'type'    => 'ThoriumCms\Router\Page',
+            //    'options' => array(
+            //        'route'    => '/page',
+            //        'defaults' => array(
+            //            'controller' => 'thoriumcms/page',
+            //            'action'     => 'index',
+            //            'page'       => 'index',
+            //        ),
+            //    ),
+            //),
             'thoriumcms' => array(
                 'type'    => 'Zend\Mvc\Router\Http\Segment',
                 'priority' => 1000,
@@ -23,18 +34,41 @@ return array(
                 ),
             ),
             'thoriumcms_admin' => array(
-                'type'    => 'Zend\Mvc\Router\Http\Segment',
+                'type' => 'Zend\Mvc\Router\Http\Literal',
                 'priority' => 1000,
                 'options' => array(
-                    'route'    => '/page-admin[/[:page]]',
-                    'constraints' => array(
-                        'page'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                    ),
+                    'route' => '/page-admin',
                     'defaults' => array(
                         'controller' => 'thoriumcms/admin',
-                        'action'     => 'index',
-                        'page'       => 'index',
+                        'action'     => 'edit',
                     ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'edit' => array(
+                        'type'    => 'Zend\Mvc\Router\Http\Segment',
+                        'options' => array(
+                            'route'    => '/edit[/[:page]]',
+                            'constraints' => array(
+                                'page'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'thoriumcms/admin',
+                                'action'     => 'edit',
+                                'page'       => 'index',
+                            ),
+                        ),
+                    ),
+                    'save' => array(
+                        'type'    => 'Zend\Mvc\Router\Http\Literal',
+                        'options' => array(
+                            'route'    => '/save',
+                            'defaults' => array(
+                                'controller' => 'thoriumcms/admin',
+                                'action'     => 'save',
+                            ),
+                        ),
+                    )
                 ),
             ),
         ),
@@ -43,6 +77,9 @@ return array(
         'classes' => array(
             'thoriumcms/page'  => 'ThoriumCms\Controller\PageController',
             'thoriumcms/admin' => 'ThoriumCms\Controller\AdminController',
+        ),
+        'map' => array(
+            'thoriumCmsPageAccess' => 'ThoriumCms\Controller\Plugin\ThoriumCmsPageAccess',
         ),
     ),
 
